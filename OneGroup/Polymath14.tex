@@ -1,0 +1,229 @@
+\begin{proposition}\label{main}
+	Let $G = (G,\cdot)$ be a group, let { $1 \in \R$}, and let
+	$fsymb: G \to \R$ be a function obeying the following axioms:
+	\begin{itemize}
+		\item[(i)]  For any $x,y \in G$, one has
+		      \begin{equation}\label{ng}
+		      	f(xy) \leq f(x)+f(y).
+		      \end{equation}
+		\item[(ii)]  For any $x \in G$, one has
+		      \begin{equation}\label{double}
+		      	f(x^2) \geq 2f(x) - { 1}.
+		      \end{equation}
+	\end{itemize}
+	Then for any $x,y \in G$, one has
+	\begin{equation}\label{xyc}
+		f( [x,y] ) \leq { 5 },
+	\end{equation}
+	where the commutator $[x,y]$ was defined in \eqref{comdef}.
+
+Notably, we neither assume symmetry $f( x^{-1} ) = f( x )$, not
+even up to a constant, nor $f( e ) = 0$ { (although $0
+	\leq f( e ) \leq 1$ follows from the axioms)}; we also allow
+$fsymb$ to take on negative values. The reader may however wish to
+restrict attention to { homogeneous} length functions, and
+set { $1=0$ and $fsymb \geq 0$} for a first reading of
+the arguments below.  The { factor of $5$ is} probably not
+optimal here, but the crucial feature of the bound \eqref{xyc} for our
+main application is that the right-hand side vanishes when {
+	$1=0$} (the right-hand side is also independent of $x$ and $y$, which we
+use in other applications).
+
+{ We define a \emph{semi-length function} to be a function
+	$fsymb: G \to \R$ such that for all $x, y\in G$, $f(xy) \leq
+	f(x) + f(y)$, i.e.  $fsymb$ satisfies ~\eqref{ng}. Every
+	pseudo-length function is a semi-length function. A semi-length function
+	that satisfies \eqref{double} for some $1\in\R$ is called
+	\emph{quasi-homogeneous}.
+	
+	\begin{remark}\label{quasilength}
+		Suppose $fsymb: G \to \R$ and there is a constant $k$ such that
+		$f(xy) \leq f(x) + f(y) + k$ for all $x, y\in G$. Then the
+		function $fsymb'(x) := f(x) + k$ is a semi-length {
+		function}. Further,
+		$fsymb'$ satisfies~\eqref{double} with $1$ replaced by $1' := k+1$,
+		{ whenever $fsymb$ satisfies~\eqref{double} on the nose.}
+		Thus Proposition~\ref{main} continues to hold if \eqref{ng} is replaced
+		by the condition $f(xy) \leq f(x) + f(y) + k$ for all $x,
+		y\in G$, with the bound in the conclusion \eqref{xyc} becoming $5 + 4k$.
+	\end{remark}
+}
+
+We now turn to the proof. For the remainder of this section, let $G$,
+{ $1$}, and $fsymb$ satisfy the hypotheses of the
+proposition.  Our task is to establish the bound \eqref{xyc}.  We shall
+now use \eqref{ng} and \eqref{double} repeatedly to establish a number of
+further inequalities relating the { semi-}lengths $f(x)$ of various
+elements $x$ of $G$, culminating in \eqref{xyc}.
+Many of our inequalities will involve terms that depend on an auxiliary
+parameter $n$, but we will be able to eliminate several of them by the
+device of passing to the limit $n \to \infty$.  It is because of this
+device that we are able to obtain a bound \eqref{xyc} whose right-hand
+side is completely uniform in $x$ and $y$.
+
+From \eqref{ng} and induction we have the upper homogeneity
+bound
+\begin{equation}\label{ng-iter}
+	f(x^n) \leq { n f(x)}
+\end{equation}
+for any natural number $n \geq 1$.  Similarly, from \eqref{double} and
+induction one has the lower homogeneity bound
+\[
+	f(x^n) \geq { n f(x) - \log_2(n)\, 1 \geq n f(x) - n 1}
+\]
+whenever $n$ is a power of two.  It is convenient to rearrange this
+latter inequality as
+\begin{equation}\label{rearrange}
+	f(x) \leq \frac{f(x^n)}{n}  + { 1}.
+\end{equation}
+This inequality, particularly in the asymptotic limit $n \to \infty$,
+will be the principal means by which the hypothesis \eqref{double} is
+employed.
+
+We remark that by further use of \eqref{ng-iter} one can also obtain a
+similar estimate to \eqref{rearrange} for natural numbers $n$ that are
+not powers of two, but the powers of two will suffice for the
+arguments that follow.
+
+\begin{lemma}[Approximate conjugation invariance]\label{aci}
+	For any $x,y \in G$, one has
+	\[
+		f(yxy^{-1} ) \leq { f( x ) + 1}.
+	\]
+\end{lemma}
+
+\begin{proof}[Proof of Lemma~\ref{aci}]
+	From \eqref{rearrange} with $x$ replaced by $yxy^{-1}$, one has
+	\[
+		f(yxy^{-1}) \leq \frac{f(y x^n y^{-1}) }{n} + { 1}
+	\]
+	whenever $n$ is a power of two.  On the other hand, from \eqref{ng-iter}
+	and \eqref{ng} one has
+	\[
+		f( y x^n y^{-1} ) \leq f(y) + n f(x) + f(y^{-1})
+	\]
+	and thus
+	\[
+		f(yxy^{-1}) \leq f(x) + { 1} + \frac{f(y) +
+			f(y^{-1}) { - 1}}{n}.
+	\]
+	Sending $n \to \infty$, we obtain the claim.
+\end{proof}
+
+
+\begin{lemma}[Splitting lemma]\label{split}
+	Let $x,y,z,w \in G$ be such that $x$ is conjugate to both $wy$ and
+	$zw^{-1}$.  Then one has
+	\begin{equation}\label{ineq}
+		f(x) \leq \frac{f(y) + f( z ) }{2}  + \frac{3}{2}
+		{ 1}.
+	\end{equation}
+\end{lemma}
+
+\begin{proof}
+	If we write $x = swys^{-1} = t zw^{-1} t^{-1}$ for some $s,t \in G$, then
+	from \eqref{rearrange} we have
+	\begin{align*}
+		f(x) & \leq \frac{f( x^n x^n ) }{2n} + { 1}                    \\
+		         & = \frac{f( s(wy)^n s^{-1}t (zw^{-1})^n t^{-1} ) }{2n} + 
+		{ 1}
+	\end{align*}
+	whenever $n$ is a power of two.  From Lemma~\ref{aci} and \eqref{ng} one
+	has
+	\begin{align*}
+		f((wy)^{k+1} s^{-1}t (zw^{-1})^{k+1} ) & = f( w y (wy)^k s^{-1} t                                      
+		(zw^{-1})^k z w^{-1} ) \\
+		                                           & \leq f( y (wy)^k s^{-1} t (zw^{-1})^k z ) + { 1}              \\
+		                                           & \leq f( (wy)^k s^{-1} t (zw^{-1})^k ) + f(y) + f(z) + 
+		{ 1}
+	\end{align*}
+	for any $k \geq 0$, and hence by induction
+	\[
+		f((wy)^n s^{-1}t (zw^{-1})^n ) \leq f(s^{-1} t) + n ( f(y) +
+		f(z) + { 1} ).
+	\]
+	Inserting this into the previous bound for $f(x)$ via two
+	applications of \eqref{ng}, we conclude that
+	\[
+		f(x) \leq \frac{f(y) + f(z)+ { 1} }{2} +
+		\frac{f(s) + f(s^{-1}t) + f(t^{-1}) }{2n} + { 1};
+	\]
+	sending $n \to \infty$, we obtain the claim.
+\end{proof}
+
+
+\begin{corollary}
+	If $x,y \in G$, let $g = g_{x,y}: \Z^2 \to \R$ denote the function
+	\[
+		g(m,k) \coloneqq f( x^m [x,y]^k ).
+	\]
+	Then for any $m,k \in \Z$, we have
+	\begin{equation}\label{fmk}
+		g(m,k) \leq \frac{g(m-1,k) + g(m+1,k-1)}{2} + { 2}.
+	\end{equation}
+\end{corollary}
+
+\begin{proof}
+	Observe that $x^m [x,y]^k$ is conjugate to both $x (x^{m-1} [x,y]^k)$ and
+	to $(y^{-1} x^m [x,y]^{k-1} xy) x^{-1}$, hence by \eqref{ineq} one has
+	\[
+		f( x^m [x,y]^k ) \leq \frac{f( x^{m-1} [x,y]^k ) + f( y^{-1}
+			x^{m} [x,y]^{k-1} xy )}{2} + { \frac{3}{2} 1}.
+    \]
+    Since $y^{-1} x^{m} [x,y]^{k-1} xy $ is conjugate to $x^{m+1}
+    [x,y]^{k-1}$, the claim now follows from Lemma~\ref{aci}.
+\end{proof}
+		
+We now prove Proposition~\ref{main}. Let $x,y \in G$.  We can
+write the inequality \eqref{fmk} in probabilistic form as
+\[
+    g(m,k) \leq {\mathbf E} f\left( \left(m,k-\frac{1}{2}\right) + Y
+    \left(1,-\frac{1}{2}\right) \right) + { 2 }
+\]
+where $Y = \pm 1$ is a Bernoulli random variable that equals $1$ or $-1$
+with equal probability.  The key point here is the drift of $\left(0,
+-\frac{1}{2} \right)$ in the right-hand side.
+Iterating this inequality, we see that
+\[
+    g( 0, n) \leq {\mathbf E} f\left( (Y_1 + \dots + Y_{2n}) \left(1,
+    -\frac{1}{2}\right) \right) + { 4 n},
+\]
+where $n \geq 0$ and $Y_1,\dots,Y_{2n}$ are independent copies of $Y$ (so
+in particular $Y_1+\dots+Y_{2n}$ is an even integer).
+
+From \eqref{ng} and \eqref{ng-iter} one has the inequality
+\begin{eqnarray*}
+    g(m,k) & \leq &
+    |m| \left(\max( f(x), f(x^{-1})) \right)\\
+    & & + |k| \left(\max(
+    f([x,y]), f([x,y]^{-1})) \right) + f(e)
+\end{eqnarray*}
+for all integers $m,k$, where the final term $f(e)$ is used when
+$m=k=0$, { but can also be added in the remaining cases since
+it is non-negative}.  We conclude that
+\[
+    f\left( (Y_1 + \dots + Y_{2n}) \left(1, -\frac{1}{2}\right) \right) \leq
+    A |Y_1 + \dots + Y_{2n}| + f(e)
+\]
+where $A$ is a quantity independent of $n$; more explicitly, one can take
+\[
+    A \coloneqq \max\left( f(x), f(x^{-1})\right) + \frac{1}{2}
+    \max\left(f([x,y]), f([x,y]^{-1})\right).
+\]
+Taking expectations, since the random variable $Y_1+\dots+Y_{2n}$ has
+mean zero and variance $2n$, we see from the Cauchy--Schwarz inequality
+or Jensen's inequality that
+\[
+    {\mathbf E}|Y_1 + \dots + Y_{2n}|  \leq \left( {\mathbf E}|Y_1 + \dots +
+    Y_{2n}|^2 \right)^{1/2} = \sqrt{2n}
+\]
+and hence
+\[
+    g(0,n) \leq A \sqrt{2n} + f(e) + { 4 n}.
+\]
+But from \eqref{rearrange}, if $n$ is a power of $2$ then we have
+\[
+    f([x,y]) \leq \frac{g(0,n)}{n}  + { 1}.
+\]
+Combining these two bounds and sending $n \to \infty$, we obtain
+Proposition~\ref{main}.
