@@ -56,8 +56,8 @@ theorem div_self_eq_div_self (a b : G) : a / a = b / b := by
 @[simp] theorem inv_div (a b : G) : (b / a)⁻¹ = a / b := by
   rw [Eq.symm $ OneGroup.one_axiom a (b / a)⁻¹ (a / a)]
   congr
+  simp
   conv =>
-    simp
     lhs
     arg 1
     rw [div_self_eq_div_self]
@@ -78,16 +78,12 @@ theorem div_self_eq_div_self (a b : G) : a / a = b / b := by
   mul x y := x / y⁻¹
 
 /-- The multiplication is associative. -/
-def mul_assoc : ∀ (a b c : G), a * b * c = a * (b * c) := by
-  intro a b c
+theorem mul_assoc (a b c : G) : a * b * c = a * (b * c) := by
   have h : a / b⁻¹ / c⁻¹ / (b / c⁻¹) / (b / c⁻¹)⁻¹ = a / (b / c⁻¹)⁻¹ := by
-    congr
     have := div_div_inv a b⁻¹
     simp_all
   rw [div_div_inv] at h
-  have _ : b / b / (b / c⁻¹) = (b / c⁻¹)⁻¹ := by
-    congr 1
-    simp[div_self_eq_div_self]
+  have _ : b / b / (b / c⁻¹) = (b / c⁻¹)⁻¹ := by simp
   simp_all
 
 variable [Inhabited G]
