@@ -71,23 +71,20 @@ theorem div_self_eq_div_self (a b : G) : a / a = b / b := by
     rw[inv_div, div_div_inv]
 
 /-- Define multiplication `x * y` to be `x / y⁻¹`. -/
-@[simps]
-instance : Mul G where
+@[simps] instance : Mul G where
   mul x y := x / y⁻¹
 
 /-- The multiplication is associative. -/
 def mul_assoc : ∀ (a b c : G), a * b * c = a * (b * c) := by
   intro a b c
-  simp
-  change a / b⁻¹ / c⁻¹ = a / (b / b / (b / c⁻¹))
-  suffices a / b⁻¹ / c⁻¹ / (b / c⁻¹) = a by
-    have h : a / b⁻¹ / c⁻¹ / (b / c⁻¹) / (b / c⁻¹)⁻¹ = a / (b / c⁻¹)⁻¹ := by congr
-    rw [div_div_inv] at h
-    have _ : b / b / (b / c⁻¹) = (b / c⁻¹)⁻¹ := by
-      congr 1
-      simp[div_self_eq_div_self]
+  have h : a / b⁻¹ / c⁻¹ / (b / c⁻¹) / (b / c⁻¹)⁻¹ = a / (b / c⁻¹)⁻¹ := by
+    congr
+    have := div_div_inv a b⁻¹
     simp_all
-  have := div_div_inv a b⁻¹
+  rw [div_div_inv] at h
+  have _ : b / b / (b / c⁻¹) = (b / c⁻¹)⁻¹ := by
+    congr 1
+    simp[div_self_eq_div_self]
   simp_all
 
 variable [Inhabited G]
