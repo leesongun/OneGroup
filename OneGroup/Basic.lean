@@ -1,4 +1,5 @@
 import Mathlib.Algebra.Group.MinimalAxioms
+import Mathlib.Tactic.Group
 
 /--
 A `OneGroup` is a type equipped with a division operation `/` satisfying the single axiom
@@ -11,6 +12,9 @@ class OneGroup (G : Type) extends Div G where
   /-- The defining axiom for a `OneGroup`. -/
   one_axiom (a b c : G) : a / ((a / a / b / c) / (a / a / a / c)) = b
 
+instance [Group G] : OneGroup G where
+  one_axiom a b c := by simp
+
 namespace OneGroup
 
 variable [OneGroup G]
@@ -19,7 +23,6 @@ variable [OneGroup G]
 theorem div_surjective (a b : G) : ∃ (c : G), a / c = b := by
   exists (a / a / b / b) / (a / a / a / b)
   exact OneGroup.one_axiom a b b
-
 
 @[simp] theorem div_cancel_right (a b : G) : a / (b / b) = a := by
   have ⟨x, _⟩ := div_surjective (a / a / a) b
