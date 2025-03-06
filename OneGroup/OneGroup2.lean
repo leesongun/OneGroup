@@ -1,5 +1,6 @@
 import Mathlib.Algebra.Group.MinimalAxioms
 import Mathlib.Tactic.Group
+import OneGroup.OneGroup
 
 /--
 A `OneGroup2` is a type equipped with a division operation `/` satisfying the single axiom
@@ -59,5 +60,10 @@ theorem div_left_inj (a b c : G) : b / a = c / a → b = c := by
   have ⟨x, _⟩ := div_right_surj (a / a / a) a
   have := div_left_inj_special a x b c
   simp_all
+
+instance : OneGroup G where
+  one_axiom a b c := aux_one_group a b c (div_left_inj c)
+
+def instGroup G [OneGroup2 G] [Inhabited G] := OneGroup.instGroup G
 
 end OneGroup2
