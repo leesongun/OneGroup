@@ -1,8 +1,6 @@
-import Mathlib.Data.Real.Basic
 import Mathlib.Data.Real.Archimedean
 import Mathlib.Tactic.Group
 import Mathlib.Tactic.Linarith
-import Mathlib.Tactic.FieldSimp
 
 variable [Group G] (f : G → ℝ)
 
@@ -82,7 +80,7 @@ lemma aux_lemma_ind s t w y z : f ((w * y)^n * s⁻¹ * t * (z * w⁻¹)^n) ≤ 
   calc
     f ((w * y)^(k + 1) * s⁻¹ * t * (z * w⁻¹)^(k + 1))
     _ = f ((w * y)^(1 + k) * s⁻¹ * t * (z * w⁻¹)^(k + 1)) := by ring_nf
-    _ = f (((w * y) * (w * y)^k) * s⁻¹ * t * ((z * w⁻¹)^k * (z * w⁻¹))) := by simp [pow_add]
+    _ = f (((w * y) * (w * y)^k) * s⁻¹ * t * ((z * w⁻¹)^k * (z * w⁻¹))) := by simp[pow_add]
     _ = f (w * (y * ((w * y)^k * s⁻¹ * t * (z * w⁻¹)^k) * z) * w⁻¹) := by group
     _ ≤ f (y * ((w * y)^k * s⁻¹ * t * (z * w⁻¹)^k) * z) + 1 := approx_conjugation _ _ _
     _ ≤ f (y * ((w * y)^k * s⁻¹ * t * (z * w⁻¹)^k)) + f z + 1 := by simp[norm_mul]
@@ -91,16 +89,16 @@ lemma aux_lemma_ind s t w y z : f ((w * y)^n * s⁻¹ * t * (z * w⁻¹)^n) ≤ 
     _ = f (s⁻¹ * t) + (k + 1) * (f y + f z + 1) := by ring
   simp
 
-lemma aux_lemma_bound_fx : (x = s * w * y * s⁻¹) → (x = t * z * w⁻¹ * t⁻¹) →
+lemma aux_lemma_bound_f : (x = s * w * y * s⁻¹) → (x = t * z * w⁻¹ * t⁻¹) →
   2 ^ (n + 1) * f x - 2 ^ (n + 1) ≤ (2 ^ n) * (f y + f z + 1) + (f s + f t⁻¹ + f (s⁻¹ * t)) := by
   intros
   calc
     2 ^ (n + 1) * f x - 2 ^ (n + 1)
     _ ≤ f (x ^ 2 ^ (n + 1)) := by linarith[pow_lower f x (n+1)]
-    _ = f (x ^ 2 ^ n * x ^ 2 ^ n) := by simp [pow_add, pow_mul, pow_two]
+    _ = f (x ^ 2 ^ n * x ^ 2 ^ n) := by simp[pow_add, pow_mul, pow_two]
     _ = f ((s * w * y * s⁻¹) ^ 2 ^ n * (t * z * w⁻¹ * t⁻¹) ^ 2 ^ n)  := by simp_all
     _ = f ((s * (w * y) * s⁻¹) ^ 2 ^ n * (t * (z * w⁻¹) * t⁻¹) ^ 2 ^ n) := by group
-    _ = f ((s * (w * y) ^ (2 ^ n) * s⁻¹)  * (t * (z * w⁻¹) ^ (2 ^ n) * t⁻¹)) := by simp_all[conj_pow]
+    _ = f ((s * (w * y) ^ (2 ^ n) * s⁻¹)  * (t * (z * w⁻¹) ^ (2 ^ n) * t⁻¹)) := by simp[conj_pow]
     _ = f (s * ((w * y) ^ (2 ^ n) * s⁻¹ * t * (z * w⁻¹) ^ (2 ^ n)) * t⁻¹) := by group
     _ ≤ f (s * ((w * y) ^ (2 ^ n) * s⁻¹ * t * (z * w⁻¹) ^ (2 ^ n))) + f t⁻¹ := by simp[norm_mul]
     _ ≤ f s + f ((w * y) ^ (2 ^ n) * s⁻¹ * t * (z * w⁻¹) ^ (2 ^ n)) + f t⁻¹ := by simp[norm_mul]
@@ -118,10 +116,22 @@ lemma splitting_lemma x y z w s t
   suffices 2 * f x - f y - f z - 3 ≤ 0 by linarith
   apply aux_lemma_real_bound _ (f s + f t⁻¹ + f (s⁻¹ * t))
   intro n
-  have := aux_lemma_bound_fx f n h₁ h₂
+  have := aux_lemma_bound_f f n h₁ h₂
   simp_all[pow_add]
   linarith
 
--- don't do this yet!
+section finale
+
+variable (x y : G)
+
+def g (m n : ℕ) := f (x ^ m * (x * y * x⁻¹ * y⁻¹) ^ n)
+
+lemma aux_lemma_bound_g m n : 2 * (g f x y m n) ≤ g f x y (m-1) n + g f x y (m+1) (n-1) + 4 := by
+  sorry
+
+
+end finale
+-- add more lemma here
+
 theorem polymath14 x y : f (x * y * x⁻¹ * y⁻¹) ≤ 5 :=
 sorry

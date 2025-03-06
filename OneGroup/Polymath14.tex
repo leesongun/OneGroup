@@ -1,3 +1,46 @@
+\documentclass{article}
+\usepackage{amsmath, amssymb, amsthm}
+
+\usepackage{bm}
+\numberwithin{equation}{section}
+
+\usepackage{mathabx}
+\usepackage{mathtools}
+\usepackage{color}
+
+
+
+\theoremstyle{plain}
+
+\newtheorem{theorem}[equation]{Theorem}
+\newtheorem{proposition}[equation]{Proposition}
+\newtheorem{lemma}[equation]{Lemma}
+\newtheorem{corollary}[equation]{Corollary}
+\newtheorem{conjecture}[equation]{Conjecture}
+\newtheorem{principle}[equation]{Principle}
+\newtheorem{claim}[equation]{Claim}
+
+\theoremstyle{definition}
+
+\newtheorem{definition}[equation]{Definition}
+\newtheorem{remark}[equation]{Remark}
+\newtheorem{remarks}[equation]{Remarks}
+\newtheorem{example}[equation]{Example}
+\newtheorem{examples}[equation]{Examples}
+
+\newcommand\R{\mathbb{R}}
+\newcommand\Z{\mathbb{Z}}
+\newcommand\N{\mathbb{N}}
+\newcommand\Q{\mathbb{Q}}
+\newcommand\eps{\varepsilon}
+
+
+\begin{document}
+
+\title{Homogeneous length functions on groups}
+
+\author{D.H.J. Polymath}
+
 \begin{proposition}\label{main}
 	Let $G = (G,\cdot)$ be a group, let { $1 \in \R$}, and let
 	$fsymb: G \to \R$ be a function obeying the following axioms:
@@ -227,3 +270,5 @@ But from \eqref{rearrange}, if $n$ is a power of $2$ then we have
 \]
 Combining these two bounds and sending $n \to \infty$, we obtain
 Proposition~\ref{main}.
+
+\end{document}
