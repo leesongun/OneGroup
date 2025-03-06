@@ -12,10 +12,10 @@ class OneGroup (G : Type) extends Div G where
   /-- The defining axiom for a `OneGroup`. -/
   one_axiom (a b c : G) : a / ((a / a / b / c) / (a / a / a / c)) = b
 
+namespace OneGroup
+
 instance [Group G] : OneGroup G where
   one_axiom a b c := by simp
-
-namespace OneGroup
 
 variable [OneGroup G]
 
