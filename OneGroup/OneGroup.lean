@@ -20,9 +20,8 @@ instance [Group G] : OneGroup G where
 variable [OneGroup G]
 
 /-- Surjectivity of the map `λ c, a / c`. -/
-theorem div_surjective (a b : G) : ∃ (c : G), a / c = b := by
-  exists (a / a / b / b) / (a / a / a / b)
-  exact OneGroup.one_axiom a b b
+theorem div_surjective (a b : G) : ∃ (c : G), a / c = b :=
+  ⟨(a / a / b / b) / (a / a / a / b), OneGroup.one_axiom _ _ _⟩
 
 @[simp] theorem div_cancel_right (a b : G) : a / (b / b) = a := by
   have ⟨x, _⟩ := div_surjective (a / a / a) b
@@ -44,34 +43,31 @@ theorem div_self_eq_div_self (a b : G) : a / a = b / b := by
   simp_all[div_self_eq_div_self (a / a / a) a]
 
 @[simp] theorem div_div_inv (a b : G) : a / b / b⁻¹ = a := by
-  suffices (a / b / b⁻¹)⁻¹  = a⁻¹ by
-    have h : ((a / b / b⁻¹)⁻¹)⁻¹ = a⁻¹⁻¹ := by congr
-    simp only [inv_inv] at h
-    assumption
+  suffices _⁻¹⁻¹ = a by simpa only [inv_inv]
   have := OneGroup.one_axiom (a / a) a⁻¹ b
   have := inv_inv a
   have := (div_self_eq_div_self · a)
   simp_all
 
 @[simp] theorem inv_div (a b : G) : (b / a)⁻¹ = a / b := by
-  rw [Eq.symm $ OneGroup.one_axiom a (b / a)⁻¹ (a / a)]
+  rw [← OneGroup.one_axiom _ (b / a)⁻¹ (a / a)]
   congr
   simp
   conv =>
     lhs
     arg 1
     rw [div_self_eq_div_self]
-    change (b / a)⁻¹⁻¹
+    change _⁻¹⁻¹
     rw [inv_inv]
-  exact div_div_inv b a
+  exact div_div_inv _ _
 
 @[simp] theorem div_div (a b c : G) : (a / c) / (b / c) = a / b := by
-  rw [Eq.symm $ OneGroup.one_axiom (a / c) (a / b) a⁻¹]
+  rw [← OneGroup.one_axiom _ (a / b) a⁻¹]
   congr
-  repeat
-  · rw[div_self_eq_div_self _]
-    change _ = (a / _)⁻¹ / a⁻¹
-    rw[inv_div, div_div_inv]
+  all_goals
+  rw[div_self_eq_div_self]
+  change _ = (_ / _)⁻¹ / _
+  rw[inv_div, div_div_inv]
 
 /-- Define multiplication `x * y` to be `x / y⁻¹`. -/
 @[simps] instance : Mul G where
@@ -97,15 +93,15 @@ instance : One G where
 def instGroup G [OneGroup G] [Inhabited G] := @Group.ofLeftAxioms
   G _ _ _ mul_assoc
   (by intro; simp; rw[div_self_eq_div_self]; exact inv_inv _)
-  (by intro; exact div_self_eq_div_self _ _)
+  (fun _ => div_self_eq_div_self _ _)
 
 /--
 The division operation defined in the `OneGroup` class agrees with the division operation
 defined in the `Group` instance constructed from the `OneGroup` instance.
 -/
 theorem div_eq_div : (inferInstanceAs $ OneGroup G).div = (instGroup G).div := by
-  funext a b
-  change a / b = a / b⁻¹⁻¹
+  funext _ a
+  change _ / _ = _ / a⁻¹⁻¹
   simp
 
 end OneGroup

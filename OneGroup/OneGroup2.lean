@@ -24,9 +24,8 @@ instance [Group G] : OneGroup2 G where
 variable [OneGroup2 G]
 
 /-- Left surjectivity of division in a `OneGroup2`. -/
-theorem div_left_surj (a b : G) : ∃ (c : G), c / a = b := by
-  exists a / a / (a / (b / (a / a / a / a)))
-  exact OneGroup2.one_axiom _ _ _
+theorem div_left_surj (a b : G) : ∃ (c : G), c / a = b :=
+  ⟨a / a / (a / (b / (a / a / a / a))), OneGroup2.one_axiom _ _ _⟩
 
 /-- Right injectivity of division in a `OneGroup2`. -/
 theorem div_right_inj (a b c : G) : (a / b = a / c) → b = c := by
@@ -37,12 +36,11 @@ theorem div_right_inj (a b c : G) : (a / b = a / c) → b = c := by
   have := OneGroup2.one_axiom a y a
   simp_all
 
-theorem aux_one_group (a b c : G) : (∀ (x y : G), (x / c = y / c → x = y)) →
-  a / ((a / a / b / c) / (a / a / a / c)) = b := by
-  intro h
-  have h₁ := OneGroup2.one_axiom a (a / a / b / c) c
-  exact (div_right_inj _ _ _) ((h _ _) h₁)
+theorem aux_one_group (a b c : G) (h : ∀ (x y : G), (x / c = y / c → x = y)) :
+  a / ((a / a / b / c) / (a / a / a / c)) = b :=
+  div_right_inj _ _ _ $ h _ _ $ OneGroup2.one_axiom _ _ _
 
+/-- Left injectivity of division by `a / a / a / b` in a `OneGroup2`. -/
 theorem div_left_inj_special (a b c d : G) : c / (a / a / a / b) = d / (a / a / a / b) → c = d := by
   intro
   have := OneGroup2.one_axiom a c b
@@ -50,10 +48,9 @@ theorem div_left_inj_special (a b c d : G) : c / (a / a / a / b) = d / (a / a / 
   simp_all
 
 /-- Right surjectivity of division in a `OneGroup2`. -/
-theorem div_right_surj (a b : G) : ∃ (c : G), a / c = b := by
+theorem div_right_surj (a b : G) : ∃ (c : G), a / c = b :=
   let c := a / a / a / a
-  exists ((a / a / b / c) / (a / a / a / c))
-  exact aux_one_group _ _ _ (div_left_inj_special a a · · )
+  ⟨(a / a / b / c) / (a / a / a / c), aux_one_group _ _ _ $ div_left_inj_special _ _⟩
 
 /-- Left injectivity of division in a `OneGroup2`. -/
 theorem div_left_inj (a b c : G) : b / a = c / a → b = c := by
@@ -62,7 +59,7 @@ theorem div_left_inj (a b c : G) : b / a = c / a → b = c := by
   simp_all
 
 instance : OneGroup G where
-  one_axiom a b c := aux_one_group a b c (div_left_inj c)
+  one_axiom _ _ _ := aux_one_group _ _ _ $ div_left_inj _
 
 def instGroup G [OneGroup2 G] [Inhabited G] := OneGroup.instGroup G
 
