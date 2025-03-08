@@ -40,7 +40,7 @@ theorem div_self_eq_div_self (a b : G) : a / a = b / b := by
 
 @[simp] theorem inv_inv (a : G) : a⁻¹⁻¹ = a := by
   have := OneGroup.one_axiom (a / a) a (a / a)
-  simp_all [div_self_eq_div_self (a / a / a) a]
+  simp_all [div_self_eq_div_self _ a]
 
 @[simp] theorem div_div_inv (a b : G) : a / b / b⁻¹ = a := by
   suffices _⁻¹⁻¹ = a by simpa only [inv_inv]
@@ -50,15 +50,12 @@ theorem div_self_eq_div_self (a b : G) : a / a = b / b := by
   simp_all
 
 @[simp] theorem inv_div (a b : G) : (b / a)⁻¹ = a / b := by
-  rw [← OneGroup.one_axiom _ (b / a)⁻¹ (a / a)]
-  congr
-  simp
-  conv =>
-    enter [1, 1]
+  rw [← OneGroup.one_axiom a (b / a)⁻¹ (a / a)]
+  have : a / a / (b / a)⁻¹ = b / a := by
     rw [div_self_eq_div_self]
-    change _⁻¹⁻¹
-    rw [inv_inv]
-  exact div_div_inv _ _
+    exact inv_inv _
+  have := div_div_inv b
+  simp_all
 
 @[simp] theorem div_div (a b c : G) : (a / c) / (b / c) = a / b := by
   rw [← OneGroup.one_axiom _ (a / b) a⁻¹]
