@@ -1,5 +1,3 @@
-import Mathlib.Algebra.Group.MinimalAxioms
-import Mathlib.Tactic.Group
 import OneGroup.OneGroup
 
 /--
@@ -28,8 +26,7 @@ theorem div_left_surj (a b : G) : ∃ (c : G), c / a = b :=
   ⟨a / a / (a / (b / (a / a / a / a))), OneGroup2.one_axiom _ _ _⟩
 
 /-- Right injectivity of division in a `OneGroup2`. -/
-theorem div_right_inj (a b c : G) : (a / b = a / c) → b = c := by
-  intro
+theorem div_right_inj (a b c : G) (_ : a / b = a / c) : b = c := by
   have ⟨x, _⟩ := div_left_surj (a / a / a / a) b
   have ⟨y, _⟩ := div_left_surj (a / a / a / a) c
   have := OneGroup2.one_axiom a x a
@@ -41,8 +38,7 @@ theorem aux_one_group (a b c : G) (h : ∀ (x y : G), (x / c = y / c → x = y))
   div_right_inj _ _ _ $ h _ _ $ OneGroup2.one_axiom _ _ _
 
 /-- Left injectivity of division by `a / a / a / b` in a `OneGroup2`. -/
-theorem div_left_inj_special (a b c d : G) : c / (a / a / a / b) = d / (a / a / a / b) → c = d := by
-  intro
+theorem div_left_inj_special (a b c d : G) (_ : c / (a / a / a / b) = d / (a / a / a / b)) : c = d := by
   have := OneGroup2.one_axiom a c b
   have := OneGroup2.one_axiom a d b
   simp_all

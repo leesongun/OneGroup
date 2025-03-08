@@ -40,7 +40,7 @@ theorem div_self_eq_div_self (a b : G) : a / a = b / b := by
 
 @[simp] theorem inv_inv (a : G) : a⁻¹⁻¹ = a := by
   have := OneGroup.one_axiom (a / a) a (a / a)
-  simp_all[div_self_eq_div_self (a / a / a) a]
+  simp_all [div_self_eq_div_self (a / a / a) a]
 
 @[simp] theorem div_div_inv (a b : G) : a / b / b⁻¹ = a := by
   suffices _⁻¹⁻¹ = a by simpa only [inv_inv]
@@ -54,8 +54,7 @@ theorem div_self_eq_div_self (a b : G) : a / a = b / b := by
   congr
   simp
   conv =>
-    lhs
-    arg 1
+    enter [1, 1]
     rw [div_self_eq_div_self]
     change _⁻¹⁻¹
     rw [inv_inv]
@@ -65,9 +64,9 @@ theorem div_self_eq_div_self (a b : G) : a / a = b / b := by
   rw [← OneGroup.one_axiom _ (a / b) a⁻¹]
   congr
   all_goals
-  rw[div_self_eq_div_self]
+  rw [div_self_eq_div_self]
   change _ = (_ / _)⁻¹ / _
-  rw[inv_div, div_div_inv]
+  rw [inv_div, div_div_inv]
 
 /-- Define multiplication `x * y` to be `x / y⁻¹`. -/
 @[simps] instance : Mul G where
@@ -75,11 +74,9 @@ theorem div_self_eq_div_self (a b : G) : a / a = b / b := by
 
 /-- The multiplication is associative. -/
 theorem mul_assoc (a b c : G) : a * b * c = a * (b * c) := by
-  have h : a / b⁻¹ / c⁻¹ / (b / c⁻¹) / (b / c⁻¹)⁻¹ = a / (b / c⁻¹)⁻¹ := by
-    have := div_div_inv a b⁻¹
-    simp_all
-  rw [div_div_inv] at h
-  have _ : b / b / (b / c⁻¹) = (b / c⁻¹)⁻¹ := by simp
+  convert_to a / b⁻¹ / c⁻¹ = a / (b / c⁻¹)⁻¹
+  rw [← div_div_inv (_ / c⁻¹) (b / c⁻¹)]
+  have := div_div_inv a b⁻¹
   simp_all
 
 variable [Inhabited G]
@@ -92,7 +89,7 @@ instance : One G where
 /-- Construct a `Group` instance from a `OneGroup` instance. -/
 def instGroup G [OneGroup G] [Inhabited G] := @Group.ofLeftAxioms
   G _ _ _ mul_assoc
-  (by intro; simp; rw[div_self_eq_div_self]; exact inv_inv _)
+  (by intro; simp; rw [div_self_eq_div_self]; exact inv_inv _)
   (fun _ => div_self_eq_div_self _ _)
 
 /--
