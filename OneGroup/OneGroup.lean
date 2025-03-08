@@ -8,7 +8,7 @@ and multiplication, and to prove that the type forms a group.
 
 This class is named `OneGroup` because there is only one defining axiom.
 -/
-class OneGroup (G : Type) extends Div G where
+class OneGroup (G : Type*) extends Div G where
   /-- The defining axiom for a `OneGroup`. -/
   one_axiom (a b c : G) : a / ((a / a / b / c) / (a / a / a / c)) = b
 
@@ -20,7 +20,7 @@ instance [Group G] : OneGroup G where
 variable [OneGroup G]
 
 /-- Surjectivity of the map `λ c, a / c`. -/
-theorem div_surjective (a b : G) : ∃ (c : G), a / c = b :=
+def div_surjective (a b : G) : {c : G // a / c = b} :=
   ⟨(a / a / b / b) / (a / a / a / b), OneGroup.one_axiom _ _ _⟩
 
 @[simp] theorem div_cancel_right (a b : G) : a / (b / b) = a := by

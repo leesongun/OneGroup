@@ -7,7 +7,7 @@ and multiplication, and to prove that the type forms a group.
 
 This class is named `OneGroup2` because there is only one defining axiom.
 -/
-class OneGroup2 (G : Type) extends Div G where
+class OneGroup2 (G : Type*) extends Div G where
   /-- The defining axiom for a `OneGroup2`. -/
   one_axiom (a b c : G) : a / a / (a / (b / (a / a / a / c))) / c = b
 
@@ -22,7 +22,7 @@ instance [Group G] : OneGroup2 G where
 variable [OneGroup2 G]
 
 /-- Left surjectivity of division in a `OneGroup2`. -/
-theorem div_left_surj (a b : G) : ∃ (c : G), c / a = b :=
+def div_left_surj (a b : G) : {c : G // c / a = b} :=
   ⟨a / a / (a / (b / (a / a / a / a))), OneGroup2.one_axiom _ _ _⟩
 
 /-- Right injectivity of division in a `OneGroup2`. -/
@@ -44,7 +44,7 @@ theorem div_left_inj_special (a b c d : G) (_ : c / (a / a / a / b) = d / (a / a
   simp_all
 
 /-- Right surjectivity of division in a `OneGroup2`. -/
-theorem div_right_surj (a b : G) : ∃ (c : G), a / c = b :=
+def div_right_surj (a b : G) : {c : G // a / c = b} :=
   let c := a / a / a / a
   ⟨(a / a / b / c) / (a / a / a / c), aux_one_group _ _ _ $ div_left_inj_special _ _⟩
 
