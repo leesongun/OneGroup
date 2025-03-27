@@ -1,9 +1,10 @@
-name = "OneGroup"
+name = "Monorepo"
 version = "0.1.0"
 keywords = ["math"]
-defaultTargets = ["OneGroup"]
+defaultTargets = ["Monorepo"]
 
 [leanOptions]
+maxHeartbeats = 10000000
 pp.unicode.fun = true
 
 [[require]]
@@ -11,4 +12,4 @@ name = "mathlib"
 scope = "leanprover-community"
 
 [[lean_lib]]
-name = "OneGroup"
+name = "Monorepo"
